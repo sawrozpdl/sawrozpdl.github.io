@@ -17,8 +17,8 @@ class Game {
         for (var i = 0; i < this.boxNumber; i++) {
             var temp = ((i + 1) % 2) ? 1 : -1; //randomize direction of the balls
             var mass = this.randomInt(1,4);
-            var width = this.boxWidth + (mass - 1) * 3;
-            var height = this.boxHeight + (mass - 1) * 3;
+            var width = this.boxWidth + (mass - 1) * 4;
+            var height = this.boxHeight + (mass - 1) * 4;
             var uniqCord = this.getRandomXY(width, height, 0.5); // 0.5 margin 1.9 is max
             var box = new Box(this.container, width, height, mass,
                          uniqCord.x - (width / 2), uniqCord.y - (height / 2),  //radius to x,y
@@ -35,15 +35,12 @@ class Game {
                     box.bounceX();
                 if ((box.y + box.height) >= this.container.clientHeight || box.y <= 0)
                     box.bounceY();
+                
                 box.move();
 
                 box.checkCollision(this.boxes);
             });
         }, 1000 / this.fps);
-    }
-
-    initAwareness() {
-        //TODO
     }
 
     randomInt(min, max) {

@@ -3,8 +3,8 @@ class Box {
     constructor(container, width, height, mass, x, y, dx, dy) {
         this.container = container;
         this.mass = mass;
-        this.width = width + (this.mass - 1) * 3;
-        this.height = height + (this.mass - 1) * 3;
+        this.width = width;
+        this.height = height;
         this.x = x;
         this.y = y;
         this.dx = dx;
@@ -13,7 +13,9 @@ class Box {
         this.container.style.position = 'relative';
         this.element = document.createElement('span');
         this.element.style.position = 'absolute';
-        this.element.style.background = `rgb(${Math.random() * 256}, ${Math.random() * 256}, ${Math.random() * 256})`;
+        this.element.style.background = `rgb(${Math.floor(Math.random() * 256)},
+                                             ${Math.floor(Math.random() * 256)},
+                                             ${Math.floor(Math.random() * 256)})`;
     }
 
     draw() {
@@ -39,12 +41,14 @@ class Box {
     }
 
     bounceAgainst(box) {
-        var temp = this.dx * (this.mass / box.mass);
-        this.dx = box.dx * (box.mass / this.mass);
-        box.dx = temp;
-        temp = this.dy * (this.mass / box.mass);
-        this.dy = box.dy * (box.mass / this.mass);
-        box.dy = temp;
+        var mratio = (this.mass - box.mass) / (this.mass + box.mass);
+        var mcons = 2 / (this.mass + box.mass);
+        var temp = this.dx;
+        this.dx = mratio * this.dx + mcons * box.mass * box.dx;
+        box.dx = mratio * box.dx * -1 + mcons * this.mass * temp;
+        var temp = this.dy;
+        this.dy = mratio * this.dy + mcons * box.mass * box.dy;
+        box.dy = mratio * box.dy * -1 + mcons * this.mass * temp;
     }
 
     distance(p1, p2) {
@@ -53,14 +57,14 @@ class Box {
 
     collidesWith(box) {
         var r1 = {
-            x : this.x + (this.width / 2),
-            y : this.y + (this.height / 2)
+            x: this.x + (this.width / 2),
+            y: this.y + (this.height / 2)
         }
         var r2 = {
-            x : box.x + (box.width / 2),
-            y : box.y + (box.height / 2)
+            x: box.x + (box.width / 2),
+            y: box.y + (box.height / 2)
         }
-        return this.distance(r1, r2) <= (this.width + box.width) / 2; 
+        return this.distance(r1, r2) <= (this.width + box.width) / 2;
     }
 
     checkCollision(boxes) {

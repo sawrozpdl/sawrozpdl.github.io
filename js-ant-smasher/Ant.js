@@ -6,19 +6,17 @@ class Ant extends Box {
         super(container, width, width, 1, x, y, dx, dy); //same mass for all ants
         this.image = image;
         this.element.style.background = `url(${image})`;
-        this.element.style.backgroundSize = "100% 100%";
-        this.element.style.transition = "transform 0.2s ease";
+        this.element.style.backgroundSize = '100% 100%';
+        this.element.style.transition = 'transform 0.2s ease';
         this.isSmashed = 0;
         this.audio = new Audio('oof.mp3');
         this.element.onclick = () => {
             this.audio.play();
-            this.isSmashed = 1;
+            this.isSmashed = true;
             this.element.style.backgroundImage = 'url("blood.png")';
             setTimeout(() => {
-                console.log(this);
                 this.element.parentNode.removeChild(this.element);
-                this.isSmashed = 2;
-            }, 1000);  
+            }, 1000);
         }
         this.rotate();
     }
@@ -36,7 +34,7 @@ class Ant extends Box {
         this.x += this.dx;
         this.y += this.dy;
         this.update();
-    }  
+    }
 }
 
 export default Ant;
