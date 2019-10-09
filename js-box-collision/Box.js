@@ -16,6 +16,7 @@ class Box {
         this.element.style.background = `rgb(${Math.floor(Math.random() * 256)},
                                              ${Math.floor(Math.random() * 256)},
                                              ${Math.floor(Math.random() * 256)})`;
+        this.element.style.transition = 'background 0.3s ease';
     }
 
     draw() {
