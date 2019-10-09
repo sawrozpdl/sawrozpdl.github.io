@@ -26,6 +26,7 @@ class Game {
 
     generateScoreBoard() {
         this.scoreBoard = document.createElement('div');
+        this.scoreBoard.setAttribute('class', 'score-board');
         this.scoreBoard.style.transition = '1s ease';
         this.scoreBoard.style.position = 'absolute';
         this.scoreBoard.style.top = '-67px';
@@ -46,7 +47,7 @@ class Game {
         this.scoreText.style.fontSize = '40px';
         this.scoreSpan.style.fontSize = '40px';
         this.scoreSpan.innerText = '0';
-        this.scoreSpan.style.color = 'green';
+        this.scoreSpan.style.color = 'rgb(14, 149, 104)';
 
         this.scoreBoard.appendChild(this.scoreText);
         this.scoreBoard.appendChild(this.scoreSpan);
@@ -113,6 +114,7 @@ class Game {
 
         this.playAgainButton.onclick = () => {
             this.hideScoreBoard();
+            this.speed *= 0.6; // BACKLOG
             this.generateAnts();
             this.moveAnts();
         }
@@ -144,13 +146,13 @@ class Game {
     }
 
     hideScoreBoard() {
-        this.scoreBoard.style.top = '-67px';
+        this.scoreBoard.style.top = '-50px'; // BACKLOG
         this.timeSpan.style.display = 'none';
         this.calculation.style.display = 'none';
         this.playAgainButton.style.display = 'none';
         this.scoreSpan.innerText = '0';
-        this.scoreText.style.fontSize = '40px';
-        this.scoreSpan.style.fontSize = '40px';
+        this.scoreText.style.fontSize = '20px'; // BACKLOG
+        this.scoreSpan.style.fontSize = '20px';
         this.counter = 0;
         this.counterStarted = false;
     }

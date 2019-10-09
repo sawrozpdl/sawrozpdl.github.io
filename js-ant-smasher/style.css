@@ -20,7 +20,7 @@
 }
 
 .gamespan {
-    color: rgb(8, 121, 83);
+    color: rgb(14, 149, 104);
 }
 
 .play-again-button {
@@ -30,4 +30,9 @@
     color: white;
     line-height: 1.5;
     margin-top: 5px;
+    border-radius: 15px;
+}
+
+.score-board * {
+    transition: 0.3s ease;
 }
