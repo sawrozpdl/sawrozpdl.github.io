@@ -12,15 +12,20 @@ class Game {
         this.cords = [];
         this.counter = 1;
         this.counterStarted = false;
+        this.highScore = 0;
 
         this.container.style.position = 'relative';
         this.scoreBoard = null;
+
         this.scoreText = null;
         this.scoreSpan = null;
 
+        this.highscoreText = null;
+        this.highscoreSpan = null;
+
         this.timeSpan = null;
         this.calculation = null;
-        
+
         this.playAgainButton = null;
     }
 
@@ -32,17 +37,36 @@ class Game {
         this.scoreBoard.style.top = '-67px';
         this.scoreBoard.style.width = '100%';
         this.scoreBoard.style.textAlign = 'center';
-        
+
         this.timeSpan = document.createElement('span');
-        this.timeSpan.setAttribute('class', 'gamespan');
+        this.timeSpan.style.color = 'rgb(14, 149, 104)';
         this.scoreBoard.appendChild(this.timeSpan);
         this.timeSpan.style.fontSize = '10px';
         this.timeSpan.style.display = 'none';
 
 
+        this.highscoreText = document.createElement('span');
+        this.highscoreSpan = document.createElement('span');
+        this.highscoreText.style.color = 'grey';
+        this.highscoreText.innerText = 'High-Score: ';
+        this.highscoreText.style.fontSize = '20px';
+        this.highscoreSpan.style.fontSize = '20px';
+        this.highscoreSpan.style.transition = '0.3s ease';
+        this.highscoreText.style.position = "absolute";
+        this.highscoreSpan.style.position = "absolute";
+        this.highscoreText.style.left = "0px";
+        this.highscoreText.style.top = "-25px";
+        this.highscoreSpan.style.left = "100px";
+        this.highscoreSpan.style.top = "-24px";
+        this.highscoreSpan.innerText = '0';
+        this.highscoreSpan.style.color = 'grey';
+
+        this.container.appendChild(this.highscoreText);
+        this.container.appendChild(this.highscoreSpan);
+
         this.scoreText = document.createElement('span');
         this.scoreSpan = document.createElement('span');
-        this.scoreText.setAttribute('class', 'gamespan');
+        this.scoreText.style.color = 'rgb(14, 149, 104)';
         this.scoreText.innerText = 'Ants Killed: ';
         this.scoreText.style.fontSize = '40px';
         this.scoreSpan.style.fontSize = '40px';
@@ -53,7 +77,7 @@ class Game {
         this.scoreBoard.appendChild(this.scoreSpan);
 
         this.calculation = document.createElement('span');
-        this.calculation.setAttribute('class', 'gamespan');
+        this.calculation.style.color = 'rgb(14, 149, 104)';
         this.calculation.style.fontSize = '40px';
         this.calculation.style.display = 'none';
         this.scoreBoard.appendChild(this.calculation);
@@ -63,8 +87,15 @@ class Game {
         this.playAgainButton.style.cursor = 'pointer';
         this.playAgainButton.innerText = 'Play Again';
         this.playAgainButton.setAttribute('class', 'play-again-button');
+        this.playAgainButton.style.border = '2px solid black';
+        this.playAgainButton.style.background = 'lightseagreen';
+        this.playAgainButton.style.color = 'white';
+        this.playAgainButton.style.lineHeight = '1.5';
+        this.playAgainButton.style.borderRadius = '15px';
+        this.playAgainButton.style.marginTop = '5px';
+        this.playAgainButton.style.padding = '0px 12px';
         this.scoreBoard.appendChild(this.playAgainButton);
-        
+
         this.container.appendChild(this.scoreBoard);
     }
 
@@ -141,8 +172,16 @@ class Game {
         this.scoreSpan.style.fontSize = '20px';
         this.timeSpan.innerText = `You took ${this.counter} seconds`;
         this.calculation.style.display = 'block';
-        var score = Math.ceil(this.antNumber * 100/ this.counter);
+        var score = Math.ceil(this.antNumber * 100 / this.counter);
         this.calculation.innerText = `Score: ${score}`;
+        if (score > this.highScore) {
+            this.highscoreSpan.innerText = score;
+            this.highScore = score;
+            this.highscoreSpan.style.transform = "scale(1.5)";
+            setTimeout(() => {
+                this.highscoreSpan.style.transform = "scale(1)";
+            }, 300);
+        }
         this.playAgainButton.style.display = 'inline-block';
     }
 
