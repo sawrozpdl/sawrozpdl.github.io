@@ -11,6 +11,7 @@ class Game {
         this.fps = fps;
         this.ants = [];
         this.cords = [];
+        this.counter = 1;
 
         this.container.style.position = 'relative';
         this.scoreBoard = null;
@@ -20,19 +21,21 @@ class Game {
 
     generateScoreBoard() {
         this.scoreBoard = document.createElement('div');
+        this.scoreBoard.style.transition = '1s ease';
         this.scoreBoard.style.position = 'absolute';
         this.scoreBoard.style.top = '-67px';
         this.scoreBoard.style.width = '100%';
-        this.scoreBoard.style.textAlign = "center";
+        this.scoreBoard.style.textAlign = 'center';
+        
 
         this.scoreText = document.createElement('span');
         this.scoreSpan = document.createElement('span');
-        this.scoreText.innerText = "Score: ";
-        this.scoreSpan.innerText = "0";
-        this.scoreText.style.fontSize = "30px";
-        this.scoreSpan.style.fontSize = "40px";
-        this.scoreText.style.color = "rgb(8, 121, 83)";
-        this.scoreSpan.style.color = "green";
+        this.scoreText.innerText = 'Ants Killed: ';
+        this.scoreSpan.innerText = '0';
+        this.scoreText.style.fontSize = '30px';
+        this.scoreSpan.style.fontSize = '40px';
+        this.scoreText.style.color = 'rgb(8, 121, 83)';
+        this.scoreSpan.style.color = 'green';
 
         this.scoreBoard.appendChild(this.scoreText);
         this.scoreBoard.appendChild(this.scoreSpan);
@@ -72,6 +75,10 @@ class Game {
             });
         }, 1000 / this.fps);
 
+        setInterval(() => {
+            this.counter++;
+        }, 1000);
+
         this.container.onclick = () => {
             this.checkSmashes();
         }
@@ -83,8 +90,10 @@ class Game {
                 this.ants.splice(i, 1);
                 this.scoreSpan.innerText = +this.scoreSpan.innerText + 1;
                 if (this.ants.length == 0) {
-                    this.scoreText.innerText = '';
-                    this.scoreSpan.innerText = 'YOU WON THE GAME!';
+                    this.scoreBoard.style.top = '300px';
+                    this.scoreBoard.style.transform = 'scale(2.5)';
+                    var score = Math.ceil(this.antNumber * 10/ this.counter);
+                    this.scoreSpan.innerText = score;
                 }
             }
         }

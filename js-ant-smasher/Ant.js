@@ -21,6 +21,15 @@ class Ant extends Box {
         this.rotate();
     }
 
+    bounceAgainst(ant) { //Override
+        var temp = this.dx;
+        this.dx = ant.dx;
+        ant.dx = temp;
+        temp = this.dy;
+        this.dy = ant.dy;
+        ant.dy = temp;
+    }
+
     rotate() {
         var horizontalAngle = ((this.dx < 0) ? 270 : 90) * ((this.dx != 0) ? 1 : 0);
         var verticalAngle = ((this.dy < 0) ? ((this.dx < 0) ? 360 : 0) : 180) * ((this.dx != 0) ? 1 : 0);
@@ -29,7 +38,7 @@ class Ant extends Box {
         this.element.style.transform = `rotate(${value}deg)`;
     }
 
-    move() {
+    move() { //Override
         if (this.isSmashed) return;
         this.x += this.dx;
         this.y += this.dy;

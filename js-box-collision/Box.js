@@ -46,9 +46,13 @@ class Box {
         var temp = this.dx;
         this.dx = mratio * this.dx + mcons * box.mass * box.dx;
         box.dx = mratio * box.dx * -1 + mcons * this.mass * temp;
-        var temp = this.dy;
+        temp = this.dy;
         this.dy = mratio * this.dy + mcons * box.mass * box.dy;
         box.dy = mratio * box.dy * -1 + mcons * this.mass * temp;
+
+        temp = this.element.style.background;
+        this.element.style.background = box.element.style.background;
+        box.element.style.background = temp;
     }
 
     distance(p1, p2) {

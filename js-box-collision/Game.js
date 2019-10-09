@@ -72,6 +72,39 @@ class Game {
         this.cords.push(cord);
         return cord;
     }
+
+    initDev() {  //initialize a master controllable ball for development purposes 
+        var neo = new Box(this.container, 35, 35, 2, 1, 1, 0, 0);
+        neo.element.style.background = "pink";
+        neo.element.style.boxSizing = 'border-box';
+        neo.element.style.border = "3px solid violet";
+        neo.draw();
+        this.boxes.push(neo);
+        document.onkeydown = function(event) {
+            var keyCode = event.keyCode;
+            switch (keyCode) {
+              case 37:
+                neo.dx -= 1;
+                break;
+              case 38:
+                neo.dy -= 1;
+                break;
+              case 39:
+                neo.dx += 1;
+                break;
+              case 40:
+                neo.dy += 1;
+                break;
+              case 32:
+                  neo.dx = 0;
+                  neo.dy = 0;
+                  break;
+              case 16:
+                  neo.element.style.background = `rgb(${Math.random() * 256}, ${Math.random() * 256}, ${Math.random() * 256})`;
+                  break;
+            }
+          }
+    }
 }
 
 export default Game
