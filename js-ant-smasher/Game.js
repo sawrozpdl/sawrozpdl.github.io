@@ -60,6 +60,7 @@ class Game {
 
         this.playAgainButton = document.createElement('span');
         this.playAgainButton.style.display = 'none';
+        this.playAgainButton.style.cursor = 'pointer';
         this.playAgainButton.innerText = 'Play Again';
         this.playAgainButton.setAttribute('class', 'play-again-button');
         this.scoreBoard.appendChild(this.playAgainButton);
@@ -140,7 +141,7 @@ class Game {
         this.scoreSpan.style.fontSize = '20px';
         this.timeSpan.innerText = `You took ${this.counter} seconds`;
         this.calculation.style.display = 'block';
-        var score = Math.ceil(this.antNumber * 10/ this.counter);
+        var score = Math.ceil(this.antNumber * 100/ this.counter);
         this.calculation.innerText = `Score: ${score}`;
         this.playAgainButton.style.display = 'inline-block';
     }

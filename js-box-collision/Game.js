@@ -74,10 +74,10 @@ class Game {
     }
 
     initDev() {  //initialize a master controllable ball for development purposes 
-        var neo = new Box(this.container, 35, 35, 2, 1, 1, 0, 0);
+        var neo = new Box(this.container, 40, 40, 2, 1, 1, 0, 0);
         neo.element.style.background = "pink";
         neo.element.style.boxSizing = 'border-box';
-        neo.element.style.border = "3px solid violet";
+        neo.element.style.border = "3px solid rgba(0, 0, 0, 0.5)";
         neo.draw();
         this.boxes.push(neo);
         document.onkeydown = function(event) {
