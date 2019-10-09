@@ -18,3 +18,16 @@
 .box {
     background: green;
 }
+
+.gamespan {
+    color: rgb(8, 121, 83);
+}
+
+.play-again-button {
+    border: 2px solid black;
+    background: lightseagreen;
+    padding: 0px 12px;
+    color: white;
+    line-height: 1.5;
+    margin-top: 5px;
+}
