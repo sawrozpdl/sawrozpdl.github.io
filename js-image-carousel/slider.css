@@ -1,0 +1,55 @@
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
+
+.fa.arrowPrev {
+    position: absolute;
+    left: 5px;
+}
+.fa.arrowNext {
+    position: absolute;
+    right: 5px;
+}
+.fa.arrowNext, .fa.arrowPrev {
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.9);
+    cursor: pointer;
+    color: white;
+}
+
+[id*="index"] {
+    background-color: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.active {
+    transform: scale(1.6);
+}
+
+.clearfix::after, .clearfix::before {
+    display: table;
+    content: "";
+}
+.clearfix::after {
+    clear: both;
+}
+
+.main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0px 16px;
+    box-sizing: border-box;
+}
+
+.row {
+    width: 100%;
+}
+
+.col3 {
+    width: 33.33%;
+    float: left;
+}
+
+@media only screen and (max-width: 786px) {
+    .col3 {
+        width: 100%;
+    }
+}

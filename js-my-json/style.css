@@ -1,0 +1,26 @@
+p {
+    padding: 10px;
+    letter-spacing: 5px;
+}
+
+table {
+    width: 80%;
+    margin: auto;
+    border: 1px solid black;
+}
+
+td, th {
+    line-height: 2;
+    font-size: 18px;
+    letter-spacing: 1px;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+th {
+    background: grey;
+}
+
+td:hover {
+    background: rgba(0,0,0,0.3);
+}
