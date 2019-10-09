@@ -56,6 +56,7 @@ class Box {
     }
 
     collidesWith(box) {
+        if ((Math.abs(this.x - box.x) > 3 * this.width) || (Math.abs(this.y - box.y) > 3 * this.height)) return false;
         var r1 = {
             x: this.x + (this.width / 2),
             y: this.y + (this.height / 2)

@@ -7,7 +7,7 @@ class Ant extends Box {
         this.image = image;
         this.element.style.background = `url(${image})`;
         this.element.style.backgroundSize = '100% 100%';
-        this.element.style.transition = 'transform 0.2s ease';
+        this.element.style.transition = 'transform 0.5s ease';
         this.isSmashed = 0;
         this.audio = new Audio('oof.mp3');
         this.element.onclick = () => {
