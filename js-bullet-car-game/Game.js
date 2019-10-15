@@ -13,30 +13,39 @@ class Game {
         this.fps = fps;
 
         this.overtakeCount = 0;
+        this.gameWidth = 800;
         this.gameHeight = 700;
         this.scoreHeight = 60;
         this.gameOver = false;
+        
+        this.container.parentNode.style.width = `${this.gameWidth}px`;
+        this.container.style.width = "100%";
+        this.container.style.height = `${this.gameHeight}px`;
+        this.container.style.margin = `${this.scoreHeight}px auto 0px auto`;
 
         this.cars = ["blue_car.png", "green_car.png", "orange_car.png", "police_car.png", "mini_van.png", "truck.png", "mini_truck.png", "taxi_car.png", "red_car.png", "yellow_car.png", "white_car.png"];
-        this.laneCords = [150, 280, 410];
-        //this.laneCords = [190, 325, 475, 612, 766, 917];
-        this.shuffleCords = [150, 280, 410];
+        this.laneCords = [165 * this.gameWidth / 645,
+                          285 * this.gameWidth / 645,
+                          405 * this.gameWidth / 645];
+        this.shuffleCords = [165 * this.gameWidth / 645,
+                            285 * this.gameWidth / 645,
+                            405 * this.gameWidth / 645];
         this.carPointer = 2;
         this.objects = [];
         this.mainCar = null;
 
-        this.container.style.width = '100%';
-        this.container.style.height = `${this.gameHeight}px`;
-        this.container.style.margin = `${this.scoreHeight}px auto 0px auto`;
+        
         this.container.style.background = 'url("./images/road.png")';
-        this.container.style.backgroundPosition = 'center 0px';
-        this.container.style.backgroundSize = 'cover';
+        this.container.style.backgroundSize = '100%';
         this.container.style.overflow = 'hidden';
-        this.container.style.position = 'relative';
+        this.container.parentNode.style.position = 'relative';
+        this.container.style.position = 'absolute';
 
         this.landingPage = null;
         this.gameName = null;
         this.playButton = null;
+        this.gameOverName = null;
+        this.playAgainButton = null;
         this.scoreArea = null;
         this.notifier = null;
     }
@@ -60,7 +69,7 @@ class Game {
         this.landingPage.setAttribute('class', 'landing-page');
         this.landingPage.style.width = `${this.container.clientWidth}px`;
         this.landingPage.style.height = `${this.scoreHeight + this.gameHeight}px`;
-
+        this.landingPage.style.left = "0px";
 
         this.gameName = document.createElement('img');
         this.gameName.setAttribute('src', './images/texts/bullet-car.png');
@@ -74,7 +83,18 @@ class Game {
     }
 
     generateGameoverScreen() {
+        this.gameOverName = document.createElement('img');
+        this.gameOverName.setAttribute('src', './images/texts/game-over.png');
+        this.gameOverName.style.position = 'absolute';
+        this.playAgainButton = document.createElement('img');
+        this.playAgainButton.setAttribute('src', './images/texts/play-again.png');
+        this.playAgainButton.style.position = 'absolute';
+        this.playAgainButton.onclick = () => {
 
+        }
+
+        this.landingPage.appendChild(this.gameOverName);
+        this.landingPage.appendChild(this.playAgainButton);
     }
 
     setScoreBoard() {
@@ -181,7 +201,7 @@ class Game {
     moveCars() {
         var val = 0;
         const mvCars = setInterval(() => {
-            val = val % 1000;
+            //val = val % (this.gameHeight - 5);
             this.container.style.backgroundPosition = `center ${val}px`;
             val += (this.speed - 1);
             this.objects.forEach(object => {
