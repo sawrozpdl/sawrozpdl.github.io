@@ -11,7 +11,7 @@
     position: absolute;
     top:0px;
     border: 1px solid red;
-    background: rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0.3);
     transition: 0.5s ease;
 }
 

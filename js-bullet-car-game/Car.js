@@ -14,7 +14,7 @@ class Car extends Box {
         this.element.style.transform = `rotate(${value}deg)`;
         setTimeout(() => {
             this.element.style.transform = "rotate(180deg)";
-        }, 300);
+        }, 200);
     }
 
     shoot(bullet) {

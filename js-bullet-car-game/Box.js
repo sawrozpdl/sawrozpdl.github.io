@@ -59,11 +59,11 @@ class Box {
             if (this.collidesWith(boxes[i])) {
                 if (boxes[i].isPowerUp || this.isPowerUp) {
                     if (boxes[i].isMainCar) {
-                        boxes[i].ammoCount += 3;
+                        boxes[i].ammoCount += 2;
                         this.remove();
                     }
                     else {
-                        this.ammoCount += 3;
+                        this.ammoCount += 2;
                         this.remove();
                     }
                     return "ammo";

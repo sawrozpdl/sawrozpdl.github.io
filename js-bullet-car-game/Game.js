@@ -16,7 +16,7 @@ class Game {
         this.scoreHeight = 100;
         this.gameOver = false;
 
-        this.cars = ["blue_car.png", "green_car.png", "orange_car.png", "police_black.gif", "police_white.gif", "red_car.png", "yellow_car.png", "white_car.png"];
+        this.cars = ["blue_car.png", "green_car.png", "orange_car.png", "police_car.png", "mini_van.png", "truck.png", "mini_truck.png", "taxi_car.png", "red_car.png", "yellow_car.png", "white_car.png"];
         this.laneCords = [190, 325, 475, 612, 766, 917];
         this.shuffleCords = [190, 325, 475, 612, 766, 917];
         this.carPointer = 2;
@@ -49,7 +49,7 @@ class Game {
         setTimeout(() => {
             this.notifier.style.transform = 'scale(0)';
             this.notifier.style.opacity = '0';
-        }, 500);
+        }, 600);
     }
 
     generateLandingScreen() {
@@ -86,7 +86,7 @@ class Game {
         this.notifier.style.fontSize = '30px';
         this.notifier.style.color = 'white';
         this.notifier.style.zIndex = '3';
-        this.notifier.style.transition = '0.5s ease';
+        this.notifier.style.transition = '0.6s ease';
         this.notifier.style.position = 'absolute';
         this.notifier.style.top = '400px';
         this.notifier.style.width = '100%';
@@ -105,7 +105,7 @@ class Game {
             this.container.clientHeight - 190, 0, 0);
         this.mainCar.element.style.transform = "rotate(180deg)";
         this.mainCar.isMainCar = true;
-        this.mainCar.element.style.transition = '0.5s ease';
+        this.mainCar.element.style.transition = '0.3s ease';
         this.mainCar.draw();
         this.objects.push(this.mainCar);
         var that = this;
@@ -175,7 +175,7 @@ class Game {
 
     generatePowerUps() {
         const genPowerUps = setInterval(() => {
-            var powerup = new Powerup(this.container, 45, 60, this.shuffleCords[3], -200, 0,  this.speed);
+            var powerup = new Powerup(this.container, 45, 60, this.shuffleCords[3] + 20, -200, 0,  this.speed);
             powerup.draw();
             this.objects.push(powerup);
         }, 6000);
@@ -205,7 +205,7 @@ class Game {
                         this.gameOver = true;
                         break;
                     case "ammo":
-                        this.notify("+3 Ammo!");
+                        this.notify("+2 Ammo!");
                 }
 
                 this.checkRemovals();
