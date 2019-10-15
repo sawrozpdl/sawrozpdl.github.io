@@ -7,6 +7,7 @@ class Car extends Box {
         this.element.style.background = `url("./images/cars/${image}")`;
         this.element.style.backgroundSize = "cover";
 
+        this.hasFired = false;
         this.isMainCar = false;
     }
 
@@ -19,7 +20,7 @@ class Car extends Box {
 
     shoot(bullet) {
         bullet.x = this.x + this.width / 2 - bullet.width / 2;
-        bullet.y = this.y - 45;
+        bullet.y = this.y + ((this.dy <= 0) ? -45 : (this.height + 45));
         bullet.draw();
     }
 }

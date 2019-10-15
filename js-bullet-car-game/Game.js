@@ -4,21 +4,23 @@ import Powerup from './Powerup.js';
 
 class Game {
 
-    constructor(container, speed, carCount, spawnTimeGap, fps) {
+    constructor(container, isHardcore, speed, carCount, spawnTimeGap, fps) {
         this.container = container;
+        this.isHardcore = isHardcore;
         this.speed = speed;
         this.carCount = carCount;
         this.spawnTimeGap = spawnTimeGap;
         this.fps = fps;
 
         this.overtakeCount = 0;
-        this.gameHeight = 900;
-        this.scoreHeight = 100;
+        this.gameHeight = 700;
+        this.scoreHeight = 60;
         this.gameOver = false;
 
         this.cars = ["blue_car.png", "green_car.png", "orange_car.png", "police_car.png", "mini_van.png", "truck.png", "mini_truck.png", "taxi_car.png", "red_car.png", "yellow_car.png", "white_car.png"];
-        this.laneCords = [190, 325, 475, 612, 766, 917];
-        this.shuffleCords = [190, 325, 475, 612, 766, 917];
+        this.laneCords = [150, 280, 410];
+        //this.laneCords = [190, 325, 475, 612, 766, 917];
+        this.shuffleCords = [150, 280, 410];
         this.carPointer = 2;
         this.objects = [];
         this.mainCar = null;
@@ -28,10 +30,12 @@ class Game {
         this.container.style.margin = `${this.scoreHeight}px auto 0px auto`;
         this.container.style.background = 'url("./images/road.png")';
         this.container.style.backgroundPosition = 'center 0px';
+        this.container.style.backgroundSize = 'cover';
         this.container.style.overflow = 'hidden';
         this.container.style.position = 'relative';
 
         this.landingPage = null;
+        this.gameName = null;
         this.playButton = null;
         this.scoreArea = null;
         this.notifier = null;
@@ -39,7 +43,6 @@ class Game {
 
     shuffle(array) {
         array.sort(() => Math.random() - 0.5); // -0.5 to 0.5 so random sort
-        console.log(array);
     }
 
     notify(string) {
@@ -49,7 +52,7 @@ class Game {
         setTimeout(() => {
             this.notifier.style.transform = 'scale(0)';
             this.notifier.style.opacity = '0';
-        }, 600);
+        }, 500);
     }
 
     generateLandingScreen() {
@@ -59,18 +62,12 @@ class Game {
         this.landingPage.style.height = `${this.scoreHeight + this.gameHeight}px`;
 
 
-        this.playButton = document.createElement('span');
-        this.playButton.style.display = 'none';
-        this.playButton.style.cursor = 'pointer';
-        this.playButton.innerText = 'Play Again';
-        this.playButton.setAttribute('class', 'play-again-button');
-        this.playButton.style.border = '2px solid black';
-        this.playButton.style.background = 'lightseagreen';
-        this.playButton.style.color = 'white';
-        this.playButton.style.lineHeight = '1.5';
-        this.playButton.style.borderRadius = '15px';
-        this.playButton.style.marginTop = '5px';
-        this.playButton.style.padding = '0px 12px';
+        this.gameName = document.createElement('img');
+        this.gameName.setAttribute('src', './images/texts/bullet-car.png');
+        this.landingPage.appendChild(this.gameName);
+        this.playButton = document.createElement('img');
+        this.playButton.setAttribute('src', './images/texts/play.png');
+        this.playButton.onclick = () => {this.startGame();}
         this.landingPage.appendChild(this.playButton);
 
         this.container.parentNode.appendChild(this.landingPage);
@@ -83,12 +80,12 @@ class Game {
     setScoreBoard() {
         this.notifier = document.createElement('span');
         this.notifier.style.transform = 'scale(0)';
-        this.notifier.style.fontSize = '30px';
+        this.notifier.style.fontSize = '20px';
         this.notifier.style.color = 'white';
         this.notifier.style.zIndex = '3';
-        this.notifier.style.transition = '0.6s ease';
+        this.notifier.style.transition = '0.5s ease';
         this.notifier.style.position = 'absolute';
-        this.notifier.style.top = '400px';
+        this.notifier.style.top = '300px';
         this.notifier.style.width = '100%';
         this.notifier.style.textAlign = 'center';
         this.container.appendChild(this.notifier);
@@ -175,7 +172,7 @@ class Game {
 
     generatePowerUps() {
         const genPowerUps = setInterval(() => {
-            var powerup = new Powerup(this.container, 45, 60, this.shuffleCords[3] + 20, -200, 0,  this.speed);
+            var powerup = new Powerup(this.container, 45, 60, this.shuffleCords[1] + 12, -200, 0,  this.speed);
             powerup.draw();
             this.objects.push(powerup);
         }, 6000);
@@ -214,6 +211,15 @@ class Game {
                     clearInterval(mvCars);
                     this.generateGameoverScreen();
                 };
+
+                if (this.isHardcore) {
+                    if (!object.hasFired && !object.isMainCar && !object.isBullet && object.x == this.mainCar.x && (this.mainCar.y - object.y) > 500) {
+                        var bul = new Bullet(this.container, 50, 50, 1, undefined, undefined, 0, this.speed * 2);
+                        object.shoot(bul);
+                        this.objects.push(bul);
+                        object.hasFired = true;
+                    }
+                }
             });
         }, 1000 / this.fps);
     }
