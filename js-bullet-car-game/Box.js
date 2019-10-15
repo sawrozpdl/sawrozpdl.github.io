@@ -32,6 +32,7 @@ class Box {
     }
 
     remove(timeout) { //replaced from bounceY
+        if (this.isRemoved) return;
         var that = this;
         setTimeout(() => {
             that.element.parentNode.removeChild(that.element);
@@ -52,21 +53,26 @@ class Box {
             this.y < (box.y + box.height) &&
             (this.y + this.height) > box.y);
     }
-3
+
     checkCollision(boxes) {
         for (var i = 0; i < boxes.length; i++) {
             if (boxes[i] == this) return;
             if (this.collidesWith(boxes[i])) {
-                if ((boxes[i].isPowerUp || this.isPowerUp) && !boxes[i].isBullet && !this.isBullet) {
-                    if (boxes[i].isMainCar) {
-                        boxes[i].ammoCount += 2;
-                        this.remove();
+                if (boxes[i].isPowerUp || this.isPowerUp) {
+                    if (!boxes[i].isBullet && !this.isBullet) {
+                        if (boxes[i].isMainCar) {
+                            boxes[i].ammoCount += 2;
+                            this.remove();
+                            return "ammo";
+                        }
+                        else if (this.isMainCar){
+                            this.ammoCount += 2;
+                            boxes[i].remove();
+                            return "ammo";
+                        }
+                        return;
                     }
-                    else {
-                        this.ammoCount += 2;
-                        this.remove();
-                    }
-                    return "ammo";
+                    return;
                 }
                 this.destroy();
                 boxes[i].destroy();

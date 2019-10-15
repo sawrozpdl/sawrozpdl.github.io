@@ -12,7 +12,23 @@
     position: absolute;
     top:0px;
     border: 1px solid red;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.8);
     transition: 0.5s ease;
 }
 
+.header {
+    position: absolute;
+    top: 20%;
+    transition: 0.5s ease;
+}
+
+.button, .button2 {
+    position: absolute;
+    top: 55%;
+    left: 38%;
+    transition: 0.5s ease;
+}
+
+.button2 {
+    left: 25%;
+}
