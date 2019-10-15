@@ -1,17 +1,10 @@
 .main-container {
-    /* width: 50%; */
-    /* width: 790px; */
     margin: auto;
-}
-
-.game-container {
-    border: 1px solid red;
 }
 
 .landing-page {
     position: absolute;
     top:0px;
-    border: 1px solid red;
     background: rgba(0, 0, 0, 0.8);
     transition: 0.5s ease;
 }
@@ -31,4 +24,21 @@
 
 .button2 {
     left: 25%;
+}
+
+.game-stats, .hardcore-area {
+    font-size: 30px;
+    line-height: 1.8;
+    color: white;
+    letter-spacing: 0.8px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.hardcore-area {
+    font-size: 40px;
+}
+
+.hardcore-area input{
+    width: 25px;
+    height: 25px;
 }

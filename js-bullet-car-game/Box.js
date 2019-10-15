@@ -61,12 +61,12 @@ class Box {
                 if (boxes[i].isPowerUp || this.isPowerUp) {
                     if (!boxes[i].isBullet && !this.isBullet) {
                         if (boxes[i].isMainCar) {
-                            boxes[i].ammoCount += 2;
+                            boxes[i].ammoCount += 1;
                             this.remove();
                             return "ammo";
                         }
                         else if (this.isMainCar){
-                            this.ammoCount += 2;
+                            this.ammoCount += 1;
                             boxes[i].remove();
                             return "ammo";
                         }
@@ -77,6 +77,7 @@ class Box {
                 this.destroy();
                 boxes[i].destroy();
                 if (this.isMainCar || boxes[i].isMainCar) return "gameover";
+                else return "shot";
             }
         }
     }
