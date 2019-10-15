@@ -20,6 +20,7 @@ class Game {
         this.highScore = 0;
         this.score = 0;
         this.isHardcore = undefined;
+        this.counter = 0;
 
         this.laneCords = null;
         this.shuffleCords = null;
@@ -308,26 +309,29 @@ class Game {
 
     generateCars() {
         this.shuffle(this.shuffleCords);
-        var i = 0;
         this.genCars = setInterval(() => {
             for (var j = 0; j < this.carCount; j++) {
-                if (i >= this.shuffleCords.length) {
-                    i = 0;
+                if (this.counter >= this.shuffleCords.length) {
+                    this.counter = 0;
                     this.shuffle(this.shuffleCords);
                 }
                 var img = this.cars[Math.floor(Math.random() * this.cars.length)];
-                var car = new Car(this.container, 89, 169, img, 1, this.shuffleCords[i++], -200, 0, this.speed);
+                var car = new Car(this.container, 89, 169, img, 1, this.shuffleCords[this.counter++], -200, 0, this.speed);
                 car.draw();
                 this.objects.push(car);
             }
-            this.speed += 0.1;
+            this.speed += (0.1 * ((this.isHardcore) ? 3 : 1));
 
         }, this.spawnTimeGap);
     }
 
     generatePowerUps() {
         this.genPowerUps = setInterval(() => {
-            var powerup = new Powerup(this.container, 45, 60, this.shuffleCords[1] + 12, -200, 0, this.speed);
+            if (this.counter >= this.shuffleCords.length) {
+                this.counter = 0;
+                this.shuffle(this.shuffleCords);
+            }
+            var powerup = new Powerup(this.container, 45, 60, this.shuffleCords[this.counter++] + 12, -200, 0, this.speed);
             powerup.draw();
             this.objects.push(powerup);
         }, 6000);
@@ -386,7 +390,7 @@ class Game {
                 };
 
                 if (this.isHardcore) {
-                    if (!object.hasFired && !object.isMainCar && !object.isBullet && object.x == this.mainCar.x && (this.mainCar.y - object.y) > 500) {
+                    if (!object.hasFired && !object.isMainCar && !object.isBullet && object.x == this.mainCar.x && (this.mainCar.y - object.y) > 400) {
                         var bul = new Bullet(this.container, 50, 50, 1, undefined, undefined, 0, this.speed * 2);
                         object.shoot(bul);
                         this.objects.push(bul);
