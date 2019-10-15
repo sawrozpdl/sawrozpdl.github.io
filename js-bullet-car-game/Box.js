@@ -14,6 +14,7 @@ class Box {
 
         this.element = document.createElement('span');
         this.element.style.position = 'absolute';
+        this.element.style.border = '1px solid red';
     }
 
     draw() {
@@ -40,12 +41,8 @@ class Box {
     destroy() { //replaced from bounceX
         this.element.style.background = "url('./blast.gif')";
         this.element.style.backgroundSize = '100% 100%';
+        new Audio('./explosion.mp3').play();
         this.remove(400);
-    }
-
-    bounceAgainst(box) {
-        this.destroy();
-        box.destroy();
     }
 
     collidesWith(box) {
@@ -59,9 +56,9 @@ class Box {
         for (var i = 0; i < boxes.length; i++) {
             if (boxes[i] == this) return;
             if (this.collidesWith(boxes[i])) {
-                this.bounceAgainst(boxes[i]);
-                this.move();
-                boxes[i].move();
+                this.destroy();
+                boxes[i].destroy();
+                if (this.isMainCar || boxes[i].isMainCar) return true;
             }
         }
     }
