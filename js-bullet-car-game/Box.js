@@ -10,11 +10,12 @@ class Box {
         this.dx = dx;
         this.dy = dy;
 
+        this.explosionSound = new Audio('./audios/explosion.mp3');
+        this.ammoCount = 5;
         this.isRemoved = false;
 
         this.element = document.createElement('span');
         this.element.style.position = 'absolute';
-        this.element.style.border = '1px solid red';
     }
 
     draw() {
@@ -39,9 +40,9 @@ class Box {
     }
 
     destroy() { //replaced from bounceX
-        this.element.style.background = "url('./blast.gif')";
+        this.element.style.background = "url('./images/blast.gif')";
         this.element.style.backgroundSize = '100% 100%';
-        new Audio('./explosion.mp3').play();
+        this.explosionSound.play();
         this.remove(400);
     }
 
@@ -56,9 +57,20 @@ class Box {
         for (var i = 0; i < boxes.length; i++) {
             if (boxes[i] == this) return;
             if (this.collidesWith(boxes[i])) {
+                if (boxes[i].isPowerUp || this.isPowerUp) {
+                    if (boxes[i].isMainCar) {
+                        boxes[i].ammoCount += 3;
+                        this.remove();
+                    }
+                    else {
+                        this.ammoCount += 3;
+                        this.remove();
+                    }
+                    return "ammo";
+                }
                 this.destroy();
                 boxes[i].destroy();
-                if (this.isMainCar || boxes[i].isMainCar) return true;
+                if (this.isMainCar || boxes[i].isMainCar) return "gameover";
             }
         }
     }

@@ -4,7 +4,7 @@ class Car extends Box {
 
     constructor(container, width, height, image, mass, x, y, dx, dy) {
         super(container, width, height, mass, x, y, dx, dy);
-        this.element.style.background = `url("./cars/${image}")`;
+        this.element.style.background = `url("./images/cars/${image}")`;
         this.element.style.backgroundSize = "cover";
 
         this.isMainCar = false;

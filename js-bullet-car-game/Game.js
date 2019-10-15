@@ -1,5 +1,6 @@
 import Car from './Car.js';
 import Bullet from './Bullet.js';
+import Powerup from './Powerup.js';
 
 class Game {
 
@@ -11,7 +12,6 @@ class Game {
         this.fps = fps;
 
         this.overtakeCount = 0;
-        this.ammoCount = 5;
         this.gameHeight = 900;
         this.scoreHeight = 100;
         this.gameOver = false;
@@ -21,11 +21,12 @@ class Game {
         this.shuffleCords = [190, 325, 475, 612, 766, 917];
         this.carPointer = 2;
         this.objects = [];
+        this.mainCar = null;
 
         this.container.style.width = '100%';
         this.container.style.height = `${this.gameHeight}px`;
         this.container.style.margin = `${this.scoreHeight}px auto 0px auto`;
-        this.container.style.background = 'url("./road.png")';
+        this.container.style.background = 'url("./images/road.png")';
         this.container.style.backgroundPosition = 'center 0px';
         this.container.style.overflow = 'hidden';
         this.container.style.position = 'relative';
@@ -99,14 +100,14 @@ class Game {
     }
 
     spawnMainCar() {
-        var keanu = new Car(this.container, 89, 169, "main_car.png", 1,
+        this.mainCar = new Car(this.container, 89, 169, "main_car.png", 1,
             this.laneCords[2],
             this.container.clientHeight - 190, 0, 0);
-        keanu.element.style.transform = "rotate(180deg)";
-        keanu.isMainCar = true;
-        keanu.element.style.transition = '0.5s ease';
-        keanu.draw();
-        this.objects.push(keanu);
+        this.mainCar.element.style.transform = "rotate(180deg)";
+        this.mainCar.isMainCar = true;
+        this.mainCar.element.style.transition = '0.5s ease';
+        this.mainCar.draw();
+        this.objects.push(this.mainCar);
         var that = this;
         var isDown = false;
         document.onkeydown = function (event) {
@@ -117,8 +118,8 @@ class Game {
                 case 37:
                     if (that.carPointer == 0) return;
                     that.carPointer--;
-                    keanu.x = that.laneCords[that.carPointer];
-                    keanu.rotate(135);
+                    that.mainCar.x = that.laneCords[that.carPointer];
+                    that.mainCar.rotate(135);
                     break;
                 case 38:
                     //
@@ -126,23 +127,23 @@ class Game {
                 case 39:
                     if (that.carPointer == (that.laneCords.length - 1)) return;
                     that.carPointer++;
-                    keanu.x = that.laneCords[that.carPointer];
-                    keanu.rotate(225);
+                    that.mainCar.x = that.laneCords[that.carPointer];
+                    that.mainCar.rotate(225);
                     break;
                 case 40:
                     //
                     break;
                 case 32:
-                    if (keanu.isRemoved) return;
-                    if (that.ammoCount <= 0) {
+                    if (that.mainCar.isRemoved) return;
+                    if (that.mainCar.ammoCount <= 0) {
                         that.notify("No Ammo!");
                         return;
                     }
                     var bul = new Bullet(that.container, 50, 50, 1, undefined, undefined, 0, that.speed * 2 * -1);
                     that.objects.push(bul);
-                    keanu.shoot(bul);
-                    that.ammoCount--;
-                    console.log(that.ammoCount);
+                    that.mainCar.shoot(bul);
+                    that.mainCar.ammoCount--;
+                    console.log(that.mainCar.ammoCount);
                     break;
             };
             document.onkeyup = function(e) {
@@ -172,6 +173,14 @@ class Game {
         }, this.spawnTimeGap);
     }
 
+    generatePowerUps() {
+        const genPowerUps = setInterval(() => {
+            var powerup = new Powerup(this.container, 45, 60, this.shuffleCords[3], -200, 0,  this.speed);
+            powerup.draw();
+            this.objects.push(powerup);
+        }, 6000);
+    }
+
     moveCars() {
         var val = 0;
         const mvCars = setInterval(() => {
@@ -189,8 +198,15 @@ class Game {
                 } else
                     object.move();
 
-                if(object.checkCollision(this.objects))
-                    this.gameOver = true;
+                var check = object.checkCollision(this.objects);
+
+                switch(check) {
+                    case "gameover":
+                        this.gameOver = true;
+                        break;
+                    case "ammo":
+                        this.notify("+3 Ammo!");
+                }
 
                 this.checkRemovals();
 
@@ -213,6 +229,7 @@ class Game {
         this.setScoreBoard();
         this.spawnMainCar();
         this.generateCars();
+        this.generatePowerUps();
         this.moveCars();
     }
 }
