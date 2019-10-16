@@ -1,6 +1,8 @@
 import Pipe from './Pipe.js';
 import Bird from './Bird.js';
 import Powerup from './Powerup.js';
+import GetReady from './GetReady.js';
+import GameOver from './GameOver.js';
 
 class Game {
 
@@ -12,8 +14,12 @@ class Game {
         this.spawnTimeGap = spawnTimeGap;
         this.fps = fps;
 
+        this.bird = null;
         this.objects = [];
         this.gameOver = false;
+        this.gameStarted = false;
+        this.getReadyScreen = null;
+        this.gameOverScreen = null;
 
         this.gameWidth = 600;
         this.gameHeight = 500;
@@ -23,6 +29,7 @@ class Game {
         this.container.style.margin = 'auto';
 
         this.gameCanvas = document.createElement('div');
+        this.gameCanvas.style.position = 'relative';
         this.gamePlatform = document.createElement('div');
         this.container.appendChild(this.gameCanvas);
         this.container.appendChild(this.gamePlatform);
@@ -31,6 +38,7 @@ class Game {
         this.gameCanvas.style.backgroundColor = '#7bd3f7';
         this.gameCanvas.style.backgroundImage = 'url("./images/background.png")';
         this.gameCanvas.style.backgroundRepeat = 'repeat-x';
+        this.gameCanvas.style.backgroundPosition = "0px 130%";
         this.gameCanvas.style.height = this.gameHeight * 0.7 + "px";
         
         this.gamePlatform.style.width = '100%';
@@ -40,7 +48,24 @@ class Game {
         
     }   
 
-    movePipes() {
+    startGame() {
+        this.spawnBird();
+        this.startMovement();
+        this.getReadyScreen = new GetReady(this.gameCanvas);
+        this.gameOverScreen = new GameOver(this.gameCanvas);
+
+        this.getReadyScreen.onclick(() => {
+            this.getReadyScreen.hide();
+            this.gameOverScreen.show();
+        });
+        this.gameOverScreen.onclick(() => {
+            this.gameOverScreen.hide();
+            this.getReadyScreen.show();
+        });
+        this.getReadyScreen.show();
+    }
+
+    startMovement() {
         var platformW = 546;
         var canvasW = 556;
         this.mvPipes = setInterval(() => {
@@ -50,7 +75,9 @@ class Game {
             platformW -= this.speed;
             if (canvasW <= 0) canvasW = 556;
             this.gameCanvas.style.backgroundPosition = `${canvasW}px 130%`;
-            canvasW -= this.speed - 1.5;
+            canvasW -= this.speed - 1.8;
+
+            if (!this.gameStarted) return;
 
             this.objects.forEach(object => {
                 if ((object.x + object.width) >= this.container.clientWidth || object.x <= 0) {
@@ -96,7 +123,13 @@ class Game {
         }, 1000 / this.fps);
     }
 
-    checkRemoplatformWs() {
+    spawnBird() {
+        this.bird = new Bird(this.gameCanvas, 50, 38, 70, 220, 0, 0);
+        this.bird.draw();
+        this.bird.flap();
+    }
+
+    checkRemovals() {
         for (var i = 0; i < this.objects.length; i++) {
             if (this.objects[i].isRemoved)
                 this.objects.splice(i, 1);
