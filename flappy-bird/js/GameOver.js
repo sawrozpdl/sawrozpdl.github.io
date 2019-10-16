@@ -1,10 +1,11 @@
 class GameOver {
 
-    constructor(container) {
-        this.container = container;
+    constructor(game) {
+        this.container = game.container;
+        this.game = game;
         this.medal = null;
-        this.score = null;
-        this.bestScore = null;
+        this.score = 0;
+        this.bestScore = 0;
 
         this.element = document.createElement('div');
         this.container.appendChild(this.element);
@@ -38,10 +39,10 @@ class GameOver {
 
     }
 
-    setStats(medal, score, best) {
-        this.medal = medal;
-        this.score = score;
-        this.bestScore = best;
+    setStats() {
+        this.medal = this.game.medal;
+        this.score = this.game.score;
+        this.bestScore = this.game.bestScore;
     }
 
     populate() {

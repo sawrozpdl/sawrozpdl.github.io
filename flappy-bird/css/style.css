@@ -1,5 +1,31 @@
+@font-face {
+    font-family: 'FlappyBirdy';
+    src: url('../fonts/flappy.ttf') format('truetype');
+}
+
 body {
     background-image: url("../images/body.jpg");
     background-attachment: fixed;
     background-size: cover;
+}
+
+.score-text, .live-score {
+    font-family: 'FlappyBirdy';
+    color: white;
+    text-shadow:
+   -1px -1px 0 #000,  
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000;
+}
+
+
+.live-score {
+    font-size: 40px;
+    line-height: 1.5;
+    text-shadow:
+   -3px -3px 0 #000,  
+    3px -3px 0 #000,
+    -3px 3px 0 #000,
+     3px 3px 0 #000;
 }

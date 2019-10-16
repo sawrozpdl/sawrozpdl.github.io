@@ -45,20 +45,41 @@ class Game {
         this.gamePlatform.style.background = 'url("./images/platform.png")';
         this.gamePlatform.style.backgroundRepeat = 'repeat-x';
         this.gamePlatform.style.height = this.gameHeight * 0.3 + "px";
-        
-    }   
+
+        this.score = 0;
+        this.bestScore = 0;
+        this.medal = {
+            x : 0,
+            y: 0
+        }
+        this.liveScoreSpan = document.createElement('span');
+        this.liveScoreSpan.setAttribute('class', 'live-score');
+        this.liveScoreSpan.style.position = 'absolute';
+        this.liveScoreSpan.style.top = '0px';
+        this.liveScoreSpan.style.left = '48%';
+        this.gameCanvas.appendChild(this.liveScoreSpan);
+        this.updateScore();
+    }  
+    
+    updateScore() {
+        this.liveScoreSpan.innerText = this.score;
+    }
 
     startGame() {
         this.spawnBird();
         this.startMovement();
         this.getReadyScreen = new GetReady(this.gameCanvas);
-        this.gameOverScreen = new GameOver(this.gameCanvas);
+        this.gameOverScreen = new GameOver(this);
 
         this.getReadyScreen.onclick(() => {
             this.getReadyScreen.hide();
-            this.gameOverScreen.show();
+            this.gameStarted = true;
         });
+
         this.gameOverScreen.onclick(() => {
+            if (this.score > this.bestScore)
+                this.bestScore = this.score;
+            this.score = 0;
             this.gameOverScreen.hide();
             this.getReadyScreen.show();
         });
@@ -117,7 +138,8 @@ class Game {
                         object.remove(0);
                     });
                     this.objects = [];
-                    //SHOW GAMEOVER
+                    this.gameOver.setStats();
+                    this.gameOverScreen.show();
                 };
             });
         }, 1000 / this.fps);

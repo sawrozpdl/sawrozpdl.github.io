@@ -7,6 +7,7 @@ class Bird extends Box {
         this.element.style.background = `url("./images/bird-sprite.png")`;
         this.element.style.backgroundSize = "cover";
         this.element.style.backgroundRepeat = 'no-repeat';
+        this.element.style.transition = 'transform 0.5s ease';
         this.flapIndex = 0;
         this.isBird = true;
 
@@ -25,8 +26,8 @@ class Bird extends Box {
         clearInterval(this.flapy);
     }
 
-    rotate(value) {
-        this.element.style.transform = `rotate(${value}deg)`;
+    rotate() {
+        this.element.style.transform = `rotate(${(this.dy < 0) ? -45 : 45}deg)`;
     }
 }
 
