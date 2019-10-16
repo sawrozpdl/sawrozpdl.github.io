@@ -79,37 +79,53 @@ class Game {
         this.gameOverScreen.onclick(() => {
             if (this.score > this.bestScore)
                 this.bestScore = this.score;
-            this.score = 0;
-            this.gameOverScreen.hide();
-            this.getReadyScreen.show();
+            this.reset();
         });
         this.getReadyScreen.show();
+    }
+
+    reset() {
+        this.score = 0;
+        this.gameOver = false;
+        this.gameStarted = false;
+        this.gameOverScreen.hide();
+        this.getReadyScreen.show();
+        this.startMovement();
+        this.positionBird();
+        this.bird.flap();
     }
 
     startMovement() {
         var platformW = 546;
         var canvasW = 556;
-        this.mvPipes = setInterval(() => {
+        this.startMV = setInterval(() => {
 
             if (platformW <= 0) platformW = 546;
             this.gamePlatform.style.backgroundPosition = `${platformW}px 0px`;
             platformW -= this.speed;
             if (canvasW <= 0) canvasW = 556;
             this.gameCanvas.style.backgroundPosition = `${canvasW}px 130%`;
-            canvasW -= this.speed - 1.8;
+            canvasW -= (this.speed - 1.8);
 
             if (!this.gameStarted) return;
 
+            if (this.gameOver) {
+                clearInterval(this.startMV);
+                if (this.score > this.highScore) {
+                    this.highScore = this.score;
+                }
+                this.bird.stopFlap();
+                this.gameOverScreen.setStats();
+                this.gameOverScreen.show();
+                return;
+            };
+
             this.objects.forEach(object => {
-                if ((object.x + object.width) >= this.container.clientWidth || object.x <= 0) {
-                    object.destroy();
-                } else if (object.y <= -0) {
-                    object.destroy();
-                } else if (object.y > this.gameCanvas.clientHeight) {
-                    object.remove(0);
-                    if (!object.isPowerUp)
-                        this.increaseScore(1);
-                } else
+                if (((object.y + object.height) >= this.gameCanvas.clientHeight
+                            || object.y <= 0) && object.isBird) {
+                    this.gameOver = true;
+                } 
+                else
                     object.move();
 
                 var check = object.checkCollision(this.objects);
@@ -125,30 +141,27 @@ class Game {
                         break;
                 }
 
-                this.checkRemoplatformWs();
+                this.checkRemovals();
 
-                if (this.gameOver) {
-                    clearInterplatformW(this.genCars);
-                    clearInterplatformW(this.genPowerUps);
-                    clearInterplatformW(this.mvPipes);
-                    if (this.score > this.highScore) {
-                        this.highScore = this.score;
-                    }
-                    this.objects.forEach(object => {
-                        object.remove(0);
-                    });
-                    this.objects = [];
-                    this.gameOver.setStats();
-                    this.gameOverScreen.show();
-                };
+                
             });
         }, 1000 / this.fps);
     }
 
+
     spawnBird() {
-        this.bird = new Bird(this.gameCanvas, 50, 38, 70, 220, 0, 0);
+        this.bird = new Bird(this.gameCanvas, 50, 38, undefined, undefined, 0, undefined);
+        this.positionBird();
         this.bird.draw();
+        this.objects.push(this.bird);
         this.bird.flap();
+    }
+
+    positionBird() {
+        this.bird.x = 50;
+        this.bird.y = 150;
+        this.bird.dy = 3;
+        this.bird.update();
     }
 
     checkRemovals() {

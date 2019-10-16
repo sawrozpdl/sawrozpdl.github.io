@@ -1,7 +1,7 @@
 class GameOver {
 
     constructor(game) {
-        this.container = game.container;
+        this.container = game.gameCanvas;
         this.game = game;
         this.medal = null;
         this.score = 0;
@@ -31,22 +31,38 @@ class GameOver {
 
         this.medalSpan = document.createElement('div');
         this.medalSpan.style.background = "url('./images/medal-sprite.png')";
-        this.medalSpan.style.backgroundPosition = '0px 0px';
+        this.medalSpan.style.width = '45px';
+        this.medalSpan.style.height = '45px';
         this.scoreSpan = document.createElement('span');
         this.bestScoreSpan = document.createElement('span');
         this.scoreSpan.setAttribute('class', 'score-text');
         this.bestScoreSpan.setAttribute('class', 'score-text');
 
+        this.medalSpan.style.position = 'absolute';
+        this.scoreSpan.style.position = 'absolute';
+        this.bestScoreSpan.style.position = 'absolute';
+
+        this.medalSpan.style.top = '55%';
+        this.medalSpan.style.left = '35.5%';
+        this.scoreSpan.style.top = '53%';
+        this.scoreSpan.style.left = '62%';
+        this.bestScoreSpan.style.top = '64%';
+        this.bestScoreSpan.style.left = '62%';
+
+        this.element.appendChild(this.medalSpan);
+        this.element.appendChild(this.scoreSpan);
+        this.element.appendChild(this.bestScoreSpan);
     }
 
     setStats() {
         this.medal = this.game.medal;
         this.score = this.game.score;
         this.bestScore = this.game.bestScore;
+        this.populate();
     }
 
     populate() {
-        this.medalSpan.style.backgroundPosition = `${this.medal.x * 25}% ${this.medal.y * 25}%`;
+        this.medalSpan.style.backgroundPosition = `${this.medal.x * 45}px ${this.medal.y * 45}px`;
         this.scoreSpan.innerText = this.score;
         this.bestScoreSpan.innerText = this.bestScore;
     }
