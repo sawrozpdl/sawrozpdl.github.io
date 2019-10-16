@@ -1,3 +1,10 @@
-.game-container {
-    border: 1px solid red;
+body {
+    background-image: url("../images/body.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+* {
+    box-sizing: border-box;
+    /* border: 1px solid red; */
 }
