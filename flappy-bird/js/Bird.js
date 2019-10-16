@@ -11,11 +11,11 @@ class Bird extends Box {
         this.flapIndex = 0;
         this.isBird = true;
 
-        this.flapSound = new Audio('./audios/flap.mp3');
+        this.flapSound = new Audio('/flappy-bird/audios/flap.mp3');
         this.flapSound.playbackRate = '2.1';
         this.flapSound.volume = '0.1';
 
-        this.gameOverSound = new Audio('./audios/gameOver.mp3');
+        this.gameOverSound = new Audio('/flappy-bird/audios/gameOver.mp3');
         this.gameOverSound.volume = '0.3';
         this.flapy = null;
     }
