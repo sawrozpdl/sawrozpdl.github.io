@@ -40,7 +40,7 @@ class Game {
         this.gameCanvas.style.backgroundRepeat = 'repeat-x';
         this.gameCanvas.style.backgroundPosition = "0px 130%";
         this.gameCanvas.style.height = this.gameHeight * 0.7 + "px";
-        
+
         this.gamePlatform.style.width = '100%';
         this.gamePlatform.style.background = 'url("./images/platform.png")';
         this.gamePlatform.style.backgroundRepeat = 'repeat-x';
@@ -49,7 +49,7 @@ class Game {
         this.score = 0;
         this.bestScore = 0;
         this.medal = {
-            x : 0,
+            x: 0,
             y: 0
         }
         this.liveScoreSpan = document.createElement('span');
@@ -59,8 +59,8 @@ class Game {
         this.liveScoreSpan.style.left = '48%';
         this.gameCanvas.appendChild(this.liveScoreSpan);
         this.updateScore();
-    }  
-    
+    }
+
     updateScore() {
         this.liveScoreSpan.innerText = this.score;
     }
@@ -91,6 +91,11 @@ class Game {
         this.gameOverScreen.hide();
         this.getReadyScreen.show();
         this.startMovement();
+        this.objects.forEach(obj => {
+            if (!obj.isBird) {
+                obj.remove(0);
+            }
+        });
         this.positionBird();
         this.bird.flap();
     }
@@ -121,12 +126,12 @@ class Game {
             };
 
             this.objects.forEach(object => {
-                if (((object.y + object.height) >= this.gameCanvas.clientHeight
-                            || object.y <= 0) && object.isBird) {
+                if (((object.y + object.height) >= this.gameCanvas.clientHeight ||
+                        object.y <= 0) && object.isBird) {
                     this.gameOver = true;
-                } 
-                else
+                } else
                     object.move();
+                    object.rotate();
 
                 var check = object.checkCollision(this.objects);
 
@@ -143,33 +148,48 @@ class Game {
 
                 this.checkRemovals();
 
-                
+
             });
         }, 1000 / this.fps);
     }
 
 
     spawnBird() {
-        this.bird = new Bird(this.gameCanvas, 50, 38, undefined, undefined, 0, undefined);
+        this.bird = new Bird(this.gameCanvas, 37.5, 28.5, undefined, undefined, 0, undefined);
         this.positionBird();
         this.bird.draw();
+        var isDown = false;
+        document.onkeydown = function (event) {
+            if (isDown) return;
+            isDown = true;
+            var keyCode = event.keyCode;
+            switch (keyCode) {
+                case 32:
+                    this.bird.dy = this.speed * -5;
+                    break;
+            }
+        }.bind(this);
+        document.onkeyup = function () {
+            isDown = false;
+        }
         this.objects.push(this.bird);
         this.bird.flap();
     }
 
-    positionBird() {
-        this.bird.x = 50;
-        this.bird.y = 150;
-        this.bird.dy = 3;
-        this.bird.update();
-    }
+        positionBird() {
+            this.bird.x = 50;
+            this.bird.y = 150;
+            this.bird.dy = this.speed;
+            this.bird.element.style.transform = 'rotate(0deg)';
+            this.bird.update();
+        }
 
-    checkRemovals() {
-        for (var i = 0; i < this.objects.length; i++) {
-            if (this.objects[i].isRemoved)
-                this.objects.splice(i, 1);
+        checkRemovals() {
+            for (var i = 0; i < this.objects.length; i++) {
+                if (this.objects[i].isRemoved)
+                    this.objects.splice(i, 1);
+            }
         }
     }
-}
 
-export default Game;
+    export default Game;

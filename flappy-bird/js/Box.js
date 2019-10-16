@@ -9,6 +9,7 @@ class Box {
         this.y = y;
         this.dx = dx;
         this.dy = dy;
+        this.a = 1;
 
         this.isRemoved = false;
 
@@ -74,6 +75,7 @@ class Box {
     move() {
         this.x += this.dx;
         this.y += this.dy;
+        this.dy += 0.5;  //gravity
         this.update();
     }
 
