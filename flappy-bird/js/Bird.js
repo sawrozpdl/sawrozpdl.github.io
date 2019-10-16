@@ -29,6 +29,10 @@ class Bird extends Box {
     rotate() {
         this.element.style.transform = `rotate(${(this.dy < 0) ? -35 : 35}deg)`;
     }
+
+    accelerate(val) {
+        this.dy += val;
+    }
 }
 
 export default Bird;

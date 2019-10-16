@@ -30,12 +30,8 @@ class Box {
         this.element.style.left = this.x + 'px';
     }
 
-    remove(timeout) { //replaced from bounceY
-        if (this.isRemoved) return;
-        var that = this;
-        setTimeout(() => {
-            that.element.parentNode.removeChild(that.element);
-        }, timeout);
+    remove() { 
+        this.element.parentNode.removeChild(this.element);
         this.isRemoved = true;
     }
 
@@ -57,7 +53,7 @@ class Box {
                             this.remove();
                             return "powerup";
                         }
-                        else if (this.isBird){
+                        else if (this.isBird) {
                             //this.
                             boxes[i].remove();
                             return "powerup";
@@ -76,10 +72,6 @@ class Box {
         this.x += this.dx;
         this.y += this.dy;
         this.update();
-    }
-
-    accelerate(val) {
-        this.dy += val;
     }
 
 }

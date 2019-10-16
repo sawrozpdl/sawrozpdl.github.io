@@ -10,6 +10,7 @@ class GameOver {
         this.element = document.createElement('div');
         this.container.appendChild(this.element);
         this.element.style.position = 'absolute';
+        this.element.style.zIndex = '2';
         this.element.style.width = '100%';
         this.element.style.height = '100%';
 

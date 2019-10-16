@@ -6,10 +6,11 @@ import GameOver from './GameOver.js';
 
 class Game {
 
-    constructor(container, speed, birdSize, fps) {
+    constructor(container, speed, flyForce, birdSize, fps) {
         this.container = container;
         this.startSpeed = speed;
         this.speed = speed;
+        this.flyForce = flyForce;
         this.birdSize = birdSize;
         this.fps = fps;
 
@@ -39,6 +40,7 @@ class Game {
         this.gameCanvas.style.backgroundRepeat = 'repeat-x';
         this.gameCanvas.style.backgroundPosition = "0px 130%";
         this.gameCanvas.style.height = this.gameHeight * 0.7 + "px";
+        this.gameCanvas.style.overflow = 'hidden';
 
         this.gamePlatform.style.width = '100%';
         this.gamePlatform.style.background = 'url("./images/platform.png")';
@@ -54,14 +56,28 @@ class Game {
         this.liveScoreSpan = document.createElement('span');
         this.liveScoreSpan.setAttribute('class', 'live-score');
         this.liveScoreSpan.style.position = 'absolute';
+        this.liveScoreSpan.style.zIndex = '4';
         this.liveScoreSpan.style.top = '0px';
         this.liveScoreSpan.style.left = '48%';
         this.gameCanvas.appendChild(this.liveScoreSpan);
         this.updateScore();
+
+        this.counter = 1;
+        this.obstacles = [200, 100, 70, 50, 150, 130, 90];
     }
 
     updateScore() {
         this.liveScoreSpan.innerText = this.score;
+    }
+
+    appendPipePair(pos) {
+        var top = new Pipe(this.gameCanvas, 52, 400, false,(this.gameWidth + 62), (pos - 400), (this.speed * -1), 0);
+        var bottom = new Pipe(this.gameCanvas, 52, 400, true,(this.gameWidth + 62), (pos + this.birdSize * (this.flyForce - 0.5)), (this.speed * -1), 0);
+        top.draw();
+        bottom.draw();
+        this.objects.push(top);
+        this.objects.push(bottom);
+        console.log(top.y, bottom.y);
     }
 
     startGame() {
@@ -85,16 +101,18 @@ class Game {
 
     reset() {
         this.score = 0;
+        this.updateScore();
         this.gameOver = false;
         this.gameStarted = false;
         this.gameOverScreen.hide();
         this.getReadyScreen.show();
-        this.startMovement();
         this.objects.forEach(obj => {
             if (!obj.isBird) {
-                obj.remove(0);
+                obj.remove();
             }
         });
+        this.checkRemovals();
+        this.startMovement();
         this.positionBird();
         this.bird.flap();
     }
@@ -118,22 +136,46 @@ class Game {
                 if (this.score > this.highScore) {
                     this.highScore = this.score;
                 }
+                if (this.score > 5) {
+                    if (this.score > 10) {
+                        if (this.score > 15) {
+                            this.medal.x = 1;
+                            this.medal.y = 1;
+                        }
+                        this.medal.x = 1;
+                        this.medal.y = 0;
+                    }
+                    this.medal.x = 0;
+                    this.medal.y = 1;
+                }
                 this.bird.stopFlap();
                 this.gameOverScreen.setStats();
                 this.gameOverScreen.show();
                 return;
             };
 
+            if (this.counter >= 200) {  
+                this.appendPipePair(this.obstacles[Math.floor(Math.random() * this.obstacles.length)]);
+                this.counter = 0;
+            }
+            this.counter++;
+
             this.objects.forEach(object => {
                 if (((object.y + object.height) >= this.gameCanvas.clientHeight ||
                         object.y <= 0) && object.isBird) {
                     this.gameOver = true;
+                } else if ((object.x + object.width) < 0) {
+                    object.remove();
                 } else
                     object.move();
-                    if (object.isBird) {
-                        object.accelerate(0.5);
-                        object.rotate();
-                    }
+                if (!object.isBird && (object.x + object.width) == this.bird.x) {
+                    this.score += 0.5;
+                    this.updateScore();
+                }
+                if (object.isBird) {
+                    object.accelerate(0.5);
+                    object.rotate();
+                }
 
                 var check = object.checkCollision(this.objects);
 
@@ -167,12 +209,15 @@ class Game {
             var keyCode = event.keyCode;
             switch (keyCode) {
                 case 32:
-                    this.bird.dy = this.speed * -5;
+                    this.bird.dy = this.speed * -1 * this.flyForce;
                     break;
             }
         }.bind(this);
         document.onkeyup = function () {
             isDown = false;
+        }
+        this.gameCanvas.onclick = () => {
+            this.bird.dy = this.speed * -1 * this.flyForce;
         }
         this.objects.push(this.bird);
         this.bird.flap();
