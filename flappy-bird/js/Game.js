@@ -15,7 +15,7 @@ class Game {
         this.objects = [];
         this.gameOver = false;
 
-        this.gameWidth = 700;
+        this.gameWidth = 600;
         this.gameHeight = 500;
 
         this.container.style.width = `${this.gameWidth}px`;
@@ -28,13 +28,15 @@ class Game {
         this.container.appendChild(this.gamePlatform);
 
         this.gameCanvas.style.width = '100%';
-        this.gameCanvas.style.background = 'url("./images/background.png")';
+        this.gameCanvas.style.backgroundColor = '#7bd3f7';
+        this.gameCanvas.style.backgroundImage = 'url("./images/background.png")';
         this.gameCanvas.style.backgroundRepeat = 'repeat-x';
-        this.gameCanvas.style.height = this.gameHeight * 0.8 + "px";
+        this.gameCanvas.style.height = this.gameHeight * 0.7 + "px";
         
         this.gamePlatform.style.width = '100%';
         this.gamePlatform.style.background = 'url("./images/platform.png")';
-        this.gamePlatform.style.height = this.gameHeight * 0.2 + "px";
+        this.gamePlatform.style.backgroundRepeat = 'repeat-x';
+        this.gamePlatform.style.height = this.gameHeight * 0.3 + "px";
         
     }   
 
@@ -45,10 +47,10 @@ class Game {
 
             if (platformW <= 0) platformW = 546;
             this.gamePlatform.style.backgroundPosition = `${platformW}px 0px`;
-            platformW -= (this.speed - 1);
+            platformW -= this.speed;
             if (canvasW <= 0) canvasW = 556;
-            this.gameCanvas.style.backgroundPosition = `${canvasW}px 100%`;
-            canvasW -= (this.speed - 2.5);
+            this.gameCanvas.style.backgroundPosition = `${canvasW}px 130%`;
+            canvasW -= this.speed - 1.5;
 
             this.objects.forEach(object => {
                 if ((object.x + object.width) >= this.container.clientWidth || object.x <= 0) {
