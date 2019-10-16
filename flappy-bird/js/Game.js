@@ -48,7 +48,8 @@ class Game {
         this.gamePlatform.style.height = this.gameHeight * 0.3 + "px";
 
         this.score = 0;
-        this.bestScore = 0;
+        this.scoreUpSound = new Audio('./audios/scoreUp.mp3');
+        this.bestScore = localStorage.getItem('bestScore');
         this.medal = {
             x: 0,
             y: 0
@@ -133,8 +134,9 @@ class Game {
 
             if (this.gameOver) {
                 clearInterval(this.startMV);
-                if (this.score > this.highScore) {
-                    this.highScore = this.score;
+                if (this.score > this.bestScore) {
+                    this.bestScore = this.score;
+                    localStorage.setItem('bestScore', this.bestScore);
                 }
                 if (this.score > 5) {
                     if (this.score > 10) {
@@ -149,6 +151,7 @@ class Game {
                     this.medal.y = 1;
                 }
                 this.bird.stopFlap();
+                this.bird.flapOver();
                 this.gameOverScreen.setStats();
                 this.gameOverScreen.show();
                 return;
@@ -170,11 +173,14 @@ class Game {
                     object.move();
                 if (!object.isBird && (object.x + object.width) == this.bird.x) {
                     this.score += 0.5;
-                    this.updateScore();
+                    if (Math.floor(this.score) == this.score) {
+                        this.updateScore();
+                        this.scoreUpSound.play();
+                    }  
                 }
                 if (object.isBird) {
                     object.accelerate(0.5);
-                    object.rotate();
+                    object.rotate(undefined);
                 }
 
                 var check = object.checkCollision(this.objects);
@@ -227,7 +233,7 @@ class Game {
             this.bird.x = 150;
             this.bird.y = 200;
             this.bird.dy = this.speed;
-            this.bird.element.style.transform = 'rotate(0deg)';
+            this.bird.rotate(0);
             this.bird.update();
         }
 

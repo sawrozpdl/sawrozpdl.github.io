@@ -11,6 +11,11 @@ class Bird extends Box {
         this.flapIndex = 0;
         this.isBird = true;
 
+        this.flapSound = new Audio('./audios/flap.mp3');
+        this.flapSound.playbackRate = '2.1';
+        this.flapSound.volume = '0.1';
+
+        this.gameOverSound = new Audio('./audios/gameOver.mp3');
         this.flapy = null;
     }
 
@@ -19,15 +24,30 @@ class Bird extends Box {
             this.element.style.backgroundPosition = `0px -${this.flapIndex * this.height}px`;
             this.flapIndex++;
             this.flapIndex = this.flapIndex % 3;
+            this.flapSound.play();
         }, 100);
     }
 
     stopFlap() {
         clearInterval(this.flapy);
+        this.gameOverSound.play();
     }
 
-    rotate() {
-        this.element.style.transform = `rotate(${(this.dy < 0) ? -35 : 35}deg)`;
+    flapOver() {
+        this.rotate(90);
+        var int = setInterval(() => {
+            console.log(this.y, this.height, this.container.clientHeight);
+            if ((this.y + this.height + this.dy) >= this.container.clientHeight)
+                clearInterval(int);
+            this.move();
+            this.accelerate(0.3);
+        }, 1000 / 60);
+    }
+
+    rotate(angle) {
+        if (angle == undefined)
+            this.element.style.transform = `rotate(${(this.dy < 0) ? -35 : 35}deg)`;
+        this.element.style.transform = `rotate(${angle}deg)`;
     }
 
     accelerate(val) {

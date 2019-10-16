@@ -43,7 +43,7 @@ class GameOver {
         this.scoreSpan.style.position = 'absolute';
         this.bestScoreSpan.style.position = 'absolute';
 
-        this.medalSpan.style.top = '55%';
+        this.medalSpan.style.top = '54.5%';
         this.medalSpan.style.left = '35.5%';
         this.scoreSpan.style.top = '53%';
         this.scoreSpan.style.left = '62%';
