@@ -310,19 +310,24 @@ class Game {
     generateCars() {
         this.shuffle(this.shuffleCords);
         this.genCars = setInterval(() => {
-            for (var j = 0; j < this.carCount; j++) {
-                if (this.counter >= this.shuffleCords.length) {
-                    this.counter = 0;
-                    this.shuffle(this.shuffleCords);
-                }
-                var img = this.cars[Math.floor(Math.random() * this.cars.length)];
-                var car = new Car(this.container, 89, 169, img, 1, this.shuffleCords[this.counter++], -200, 0, this.speed);
-                car.draw();
-                this.objects.push(car);
-            }
+            this.generateCar();
+            setTimeout(() => {
+                this.generateCar();
+            }, (this.spawnTimeGap / 2));
             this.speed += (0.1 * ((this.isHardcore) ? 3 : 1));
 
         }, this.spawnTimeGap);
+    }
+
+    generateCar() {
+        if (this.counter >= this.shuffleCords.length) {
+            this.shuffle(this.shuffleCords);
+            this.counter = 0;
+        }
+        var img = this.cars[Math.floor(Math.random() * this.cars.length)];
+        var car = new Car(this.container, 89, 169, img, 1, this.shuffleCords[this.counter++], -200, 0, this.speed);
+        car.draw();
+        this.objects.push(car);
     }
 
     generatePowerUps() {

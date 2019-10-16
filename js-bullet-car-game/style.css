@@ -1,5 +1,7 @@
 .main-container {
     margin: auto;
+    display: block;
+    position: relative;
 }
 
 .landing-page {
