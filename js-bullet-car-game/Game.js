@@ -311,6 +311,7 @@ class Game {
         this.shuffle(this.shuffleCords);
         this.genCars = setInterval(() => {
             this.generateCar();
+            this.counter++;
             setTimeout(() => {
                 this.generateCar();
             }, (this.spawnTimeGap / 2));
@@ -325,7 +326,7 @@ class Game {
             this.counter = 0;
         }
         var img = this.cars[Math.floor(Math.random() * this.cars.length)];
-        var car = new Car(this.container, 89, 169, img, 1, this.shuffleCords[this.counter++], -200, 0, this.speed);
+        var car = new Car(this.container, 89, 169, img, 1, this.shuffleCords[this.counter], -200, 0, this.speed);
         car.draw();
         this.objects.push(car);
     }
