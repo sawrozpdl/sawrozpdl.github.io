@@ -75,8 +75,11 @@ class Box {
     move() {
         this.x += this.dx;
         this.y += this.dy;
-        this.dy += 0.5;  //gravity
         this.update();
+    }
+
+    accelerate(val) {
+        this.dy += val;
     }
 
 }

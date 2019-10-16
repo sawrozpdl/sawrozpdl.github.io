@@ -6,12 +6,11 @@ import GameOver from './GameOver.js';
 
 class Game {
 
-    constructor(container, speed, carCount, spawnTimeGap, fps) {
+    constructor(container, speed, birdSize, fps) {
         this.container = container;
         this.startSpeed = speed;
         this.speed = speed;
-        this.carCount = carCount;
-        this.spawnTimeGap = spawnTimeGap;
+        this.birdSize = birdSize;
         this.fps = fps;
 
         this.bird = null;
@@ -131,7 +130,10 @@ class Game {
                     this.gameOver = true;
                 } else
                     object.move();
-                    object.rotate();
+                    if (object.isBird) {
+                        object.accelerate(0.5);
+                        object.rotate();
+                    }
 
                 var check = object.checkCollision(this.objects);
 
@@ -155,7 +157,7 @@ class Game {
 
 
     spawnBird() {
-        this.bird = new Bird(this.gameCanvas, 37.5, 28.5, undefined, undefined, 0, undefined);
+        this.bird = new Bird(this.gameCanvas, this.birdSize, (this.birdSize * (19 / 25)), undefined, undefined, 0, undefined);
         this.positionBird();
         this.bird.draw();
         var isDown = false;
@@ -177,8 +179,8 @@ class Game {
     }
 
         positionBird() {
-            this.bird.x = 50;
-            this.bird.y = 150;
+            this.bird.x = 150;
+            this.bird.y = 200;
             this.bird.dy = this.speed;
             this.bird.element.style.transform = 'rotate(0deg)';
             this.bird.update();
