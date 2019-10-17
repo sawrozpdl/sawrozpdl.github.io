@@ -21,8 +21,8 @@ class Game {
     }
 
     generateStrand(row, val) {
-        var box1 = new Box(this.container,true,"blue", row, this.boxWidth, this.boxHeight, val * this.boxWidth * 2,val, this.length);
-        var box2 = new Box(this.container,false,"green",row, this.boxWidth, this.boxHeight, val * this.boxWidth * 2,val, this.length);
+        var box1 = new Box(this.container,true,"#FD9C85", row, this.boxWidth, this.boxHeight, val * this.boxWidth * 4,val, this.length);
+        var box2 = new Box(this.container,false,"#FD9C85",row, this.boxWidth, this.boxHeight, val * this.boxWidth * 4,val, this.length);
         box1.draw();  
         box2.draw();
         this.boxes.push(box1);

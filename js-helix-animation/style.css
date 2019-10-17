@@ -9,5 +9,7 @@ body {
 
 .game-container {
     position: relative;
-    margin-top: 30px;
+    width: 40%;
+    margin: auto;
+    margin-top: 100px;
 }

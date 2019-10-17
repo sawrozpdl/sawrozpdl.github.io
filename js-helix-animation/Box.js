@@ -18,7 +18,7 @@ class Box {
         this.element.style.transition = 'background 0.2s';
         
         this.factor = y;
-        this.amplitude = this.length;
+        this.amplitude = this.length * 2.5;
         this.rate = -0.4;
     }
 
@@ -34,7 +34,7 @@ class Box {
     update() {
         this.first = Math.sin(this.factor) * this.amplitude;
         this.element.style.top = this.row * ((this.isTop) ? this.first : ((this.length - this.height) - this.first)) + 'px';
-        //this.element.style.transform = `scale(${1 - Math.abs(this.amplitude / 10)})`;
+        this.element.style.transform = `scale(${Math.cos(this.factor)})`;
     }
 
     bounceRate () {
@@ -43,11 +43,13 @@ class Box {
 
     move() {
         //this.amplitude += this.rate;
-        this.factor += 0.1;
+        this.factor += 0.015;
         this.update();
         if (this.amplitude < -this.length || this.amplitude > this.length) {
             this.bounceRate();
         }
+        if (this.factor > 90)
+            this.factor = 0;
     }
 }
 
