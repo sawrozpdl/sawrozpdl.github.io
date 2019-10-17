@@ -12,7 +12,7 @@ class Game {
         this.fps = fps;
         this.boxes = [];
 
-        this.length = this.boxWidth * 1.5;
+        this.helixWidth = this.boxWidth * 1.5;
     }
 
     generateBoxes() {
@@ -23,8 +23,8 @@ class Game {
 
     generateStrand(val) {
         for (var i = 0; i < this.row; i++) {
-            var box1 = new Box(this.container,true,"#FD9C85", i, this.boxWidth, this.boxHeight, val * this.boxWidth * 4,val, this.length);
-            var box2 = new Box(this.container,false,"#FD9C85",i, this.boxWidth, this.boxHeight, val * this.boxWidth * 4,val, this.length);
+            var box1 = new Box(this.container,true,"#FD9C85", i, this.boxWidth, this.boxHeight, val * this.boxWidth * 4,val, this.helixWidth, this.speed);
+            var box2 = new Box(this.container,false,"#FD9C85",i, this.boxWidth, this.boxHeight, val * this.boxWidth * 4,val, this.helixWidth, this.speed);
             box1.draw();  
             box2.draw();
             this.boxes.push(box1);

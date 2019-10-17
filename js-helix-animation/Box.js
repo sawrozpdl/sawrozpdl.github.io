@@ -1,6 +1,6 @@
 class Box {
 
-    constructor(container,isTop,color, row, width, height, x, y, length) {
+    constructor(container,isTop,color, row, width, height, x, y, helixWidth, speed) {
         this.container = container;
         this.isTop = isTop;
         this.color = color;
@@ -9,7 +9,8 @@ class Box {
         this.height = height;
         this.x = x;
         this.y = y;
-        this.length = length;
+        this.helixWidth = helixWidth;
+        this.speed = speed;
 
         this.container.style.position = 'relative';
         this.element = document.createElement('span');
@@ -18,8 +19,7 @@ class Box {
         this.element.style.transition = 'background 0.2s';
         
         this.factor = y;
-        this.amplitude = this.length * 2.5;
-        this.rate = -0.4;
+        this.amplitude = this.helixWidth * 2.5;
     }
 
     draw() {
@@ -33,32 +33,22 @@ class Box {
 
     update() {
         this.first = Math.sin(this.factor) * this.amplitude;
-        this.element.style.top = this.row * this.height + ((this.isTop) ? this.first : ((this.length - this.height) - this.first)) + 'px';
+        this.element.style.top = this.row * this.height + ((this.isTop) ? this.first : ((this.helixWidth - this.height) - this.first)) + 'px';
         
-        var val = Math.cos(this.factor);
-        var val2 = Math.sin(this.factor);
+        var val = Math.cos(this.factor - this.row / 5);
+        var val2 = Math.sin(this.factor - this.row / 5);
         var temp = 0;
         if (!this.isTop) {
             temp = val;
             val = val2;
             val2 = val;
         }
-        this.element.style.transform = `scale(${(val > 0) ? (val) : val2 / 10})`;
-    }
-
-    bounceRate () {
-        this.rate *= -1;
+        this.element.style.transform = `scale(${(val > 0) ? (val) : (val2 / 5)})`;
     }
 
     move() {
-        //this.amplitude += this.rate;
-        this.factor += 0.02;
+        this.factor += this.speed;
         this.update();
-        if (this.amplitude < -this.length || this.amplitude > this.length) {
-            this.bounceRate();
-        }
-        if (this.factor > 90)
-            this.factor = 0;
     }
 }
 
