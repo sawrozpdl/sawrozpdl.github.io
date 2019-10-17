@@ -33,7 +33,7 @@ class Box {
 
     update() {
         this.first = Math.sin(this.factor) * this.amplitude;
-        this.element.style.top = this.row * ((this.isTop) ? this.first : ((this.length - this.height) - this.first)) + 'px';
+        this.element.style.top = this.row * this.height + ((this.isTop) ? this.first : ((this.length - this.height) - this.first)) + 'px';
         
         var val = Math.cos(this.factor);
         var val2 = Math.sin(this.factor);
