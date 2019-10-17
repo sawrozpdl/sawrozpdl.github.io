@@ -1,0 +1,13 @@
+body {
+    background: black;
+}
+
+.main-container {
+
+}
+
+
+.game-container {
+    position: relative;
+    margin-top: 30px;
+}

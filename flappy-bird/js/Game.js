@@ -218,7 +218,7 @@ class Game {
                     break;
             }
         }.bind(this);
-        document.onkeyup = function () {
+        document.onkeyup = function() {
             isDown = false;
         }
         this.gameCanvas.onclick = () => {
