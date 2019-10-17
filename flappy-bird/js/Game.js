@@ -5,11 +5,12 @@ import GameOver from './GameOver.js';
 
 class Game {
 
-    constructor(container, speed, flyForce, birdSize, fps) {
+    constructor(container, speed, flyForce, pipeSpawnGap, birdSize, fps) {
         this.container = container;
         this.startSpeed = speed;
         this.speed = speed;
         this.flyForce = flyForce;
+        this.pipeSpawnGap = pipeSpawnGap;
         this.birdSize = birdSize;
         this.fps = fps;
 
@@ -155,7 +156,7 @@ class Game {
                 return;
             };
 
-            if (this.counter >= 200) {  
+            if (this.counter >= this.pipeSpawnGap) {  
                 this.appendPipePair(this.obstacles[Math.floor(Math.random() * this.obstacles.length)]);
                 this.counter = 0;
             }
