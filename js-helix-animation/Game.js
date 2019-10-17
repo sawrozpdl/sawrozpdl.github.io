@@ -16,7 +16,7 @@ class Game {
 
     generateBoxes() {
         for (var i = 0; i < this.boxNumber / 2; i+=0.5) {
-            this.generateStrand(1, i);
+            this.generateStrand(1, i); 
         }
     }
 

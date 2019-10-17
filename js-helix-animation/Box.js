@@ -34,7 +34,16 @@ class Box {
     update() {
         this.first = Math.sin(this.factor) * this.amplitude;
         this.element.style.top = this.row * ((this.isTop) ? this.first : ((this.length - this.height) - this.first)) + 'px';
-        this.element.style.transform = `scale(${Math.cos(this.factor)})`;
+        
+        var val = Math.cos(this.factor);
+        var val2 = Math.sin(this.factor);
+        var temp = 0;
+        if (!this.isTop) {
+            temp = val;
+            val = val2;
+            val2 = val;
+        }
+        this.element.style.transform = `scale(${(val > 0) ? (val) : val2 / 10})`;
     }
 
     bounceRate () {
@@ -43,7 +52,7 @@ class Box {
 
     move() {
         //this.amplitude += this.rate;
-        this.factor += 0.015;
+        this.factor += 0.02;
         this.update();
         if (this.amplitude < -this.length || this.amplitude > this.length) {
             this.bounceRate();
