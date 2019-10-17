@@ -8,6 +8,7 @@ class Bird extends Box {
         this.element.style.backgroundSize = "cover";
         this.element.style.backgroundRepeat = 'no-repeat';
         this.element.style.transition = 'transform 0.4s ease';
+        this.element.style.zIndex = '2';
         this.flapIndex = 0;
         this.isBird = true;
 
@@ -37,7 +38,6 @@ class Bird extends Box {
     flapOver() {
         this.rotate(90);
         var int = setInterval(() => {
-            console.log(this.y, this.height, this.container.clientHeight);
             if ((this.y + this.height + this.dy) >= this.container.clientHeight)
                 clearInterval(int);
             this.move();

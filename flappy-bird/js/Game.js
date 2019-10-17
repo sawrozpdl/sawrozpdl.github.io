@@ -1,6 +1,5 @@
 import Pipe from './Pipe.js';
 import Bird from './Bird.js';
-import Powerup from './Powerup.js';
 import GetReady from './GetReady.js';
 import GameOver from './GameOver.js';
 
@@ -78,7 +77,6 @@ class Game {
         bottom.draw();
         this.objects.push(top);
         this.objects.push(bottom);
-        console.log(top.y, bottom.y);
     }
 
     startGame() {

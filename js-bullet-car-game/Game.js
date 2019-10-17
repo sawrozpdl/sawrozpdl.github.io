@@ -298,7 +298,6 @@ class Game {
                     that.mainCar.shoot(bul);
                     that.mainCar.ammoCount--;
                     that.ammoSpan.innerText = that.mainCar.ammoCount;
-                    console.log(that.mainCar.ammoCount);
                     break;
             };
             document.onkeyup = function (e) {

@@ -9,7 +9,6 @@ class Pipe extends Box {
         this.element.style.backgroundRepeat = 'no-repeat';
         this.element.style.backgroundSize = "cover";
         this.element.style.zIndex = '0';
-        //this.element.style.backgroundPosition = `${}px ${}px`;
 
         this.isPipe = true;
     }
